@@ -194,6 +194,7 @@ const DesktopIconGrid = ({ initialIcons }: GridIconsProps) => {
     return (
         <div className="w-full h-screen bg-gradient-to-br from-blue-900 to-purple-900 relative overflow-hidden">
             {/* Grille de fond (optionnelle, pour visualisation) */}
+            { /*
             <div className="absolute inset-0 opacity-10">
                 {Array.from({ length: Math.ceil(window.innerHeight / gridSize) }).map((_, row) =>
                     Array.from({ length: Math.ceil(window.innerWidth / gridSize) }).map((_, col) => (
@@ -210,7 +211,8 @@ const DesktopIconGrid = ({ initialIcons }: GridIconsProps) => {
                         />
                     ))
                 )}
-            </div>
+            </div>                                
+            */}
 
             {/* Container principal pour les icônes */}
             <div ref={containerRef} className="relative w-full h-full">

@@ -9,11 +9,12 @@ interface IconProps extends IIcon {
     // ADD THIS PROP:
     containerRect: DOMRect | null; // Pass the bounding rect of the drag container
     onDoubleClick: () => void;
+    src?: string;
 }
 
 // Dans DesktopIcon
 
-export default function DesktopIcon({ id, title, row, col, component: IconComponent, color, onDragEnd, gridSize, iconSize, onDrag, containerRect, onDoubleClick  }: IconProps) {
+export default function DesktopIcon({ id, title, row, col, component: IconComponent, color, onDragEnd, gridSize, iconSize, onDrag, containerRect, onDoubleClick,src  }: IconProps) {
     const offsetX = (gridSize - iconSize) / 2;
     const offsetY = (gridSize - iconSize) / 2;
 
@@ -69,10 +70,18 @@ export default function DesktopIcon({ id, title, row, col, component: IconCompon
                 style={{ width: iconSize, height: iconSize }}
                 className="bg-gray-700 rounded-md flex items-center justify-center shadow-lg hover:bg-gray-600 transition-colors"
             >
-                {IconComponent ? (
-                    <IconComponent size={iconSize * 0.5} className={color || "text-white"} />
+                {src ? (
+                <img
+                    src={src}
+                    alt={title}
+                    draggable={false}
+                    style={{ width: iconSize * 0.6, height: iconSize * 0.6 }}
+                    className="object-contain rounded"
+                />
+                ) : IconComponent ? (
+                <IconComponent size={iconSize * 0.5} className={color || "text-white"} />
                 ) : (
-                    <span className="text-white text-xl">🗔</span>
+                <span className="text-white text-xl">🗔</span>
                 )}
             </div>
             <span className="text-xs text-center mt-1 text-white bg-black bg-opacity-50 px-1 rounded max-w-16 truncate">

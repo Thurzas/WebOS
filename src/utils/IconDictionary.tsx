@@ -17,6 +17,7 @@ export interface IIcon {
     col: number;
     component?: React.ComponentType<any>;
     color?: string;
+    src?: string;
 }
 
 

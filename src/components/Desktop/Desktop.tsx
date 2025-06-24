@@ -6,16 +6,27 @@ import DesktopIconGrid from './GridIcons';
 import FileExplorer from '../Apps/FileExplorer';
 import { useState } from 'react';
 import { IIcon } from '@/utils/IconDictionary';
+import { useWindowContext, WindowProvider } from '../Contexts/windowContext';
+import ImageViewer from '../Apps/ImageViewer';
 
-const imageList = [
-  { id: '1', src: '/images/photo1.jpg', name: 'mlp.jpg' },
-  { id: '2', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
-  { id: '3', src: '/images/photo3.jpg', name: 'DnD.jpg' },
-  { id: '4', src: '/images/photo4.jpg', name: 'Misty.jpg' },
-  // Ajoute autant que tu veux
-];
+
+
 export default function Desktop() {
-  const [GaleryOpen,setGaleryOpen] = useState<boolean>(false);
+  return (
+    <WindowProvider>
+      <DesktopContent />
+    </WindowProvider>
+  );
+}
+
+ function DesktopContent() {
+  const imageList = [
+    { id: '1', src: '/images/photo1.jpg', name: 'mlp.jpg' },
+    { id: '2', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
+    { id: '3', src: '/images/photo3.jpg', name: 'DnD.jpg' },
+    { id: '4', src: '/images/photo4.jpg', name: 'Misty.jpg' },
+    // Ajoute autant que tu veux
+  ];
   
   const icons: { key: string; value: IIcon }[] = [
   {
@@ -64,22 +75,37 @@ export default function Desktop() {
       component: Image,
       color: 'text-purple-400',
       onDoubleClick: () => { 
-        setGaleryOpen(prev => !prev);        
+        if(!isOpen('galeries'))
+          openWindow('galeries');
       }
     }
   },
   // autres icônes...
   ];
-
+  const { isOpen, toggleWindow, openWindow, viewerImage, setViewerImage} = useWindowContext();
+  if(viewerImage)
+    console.info("img:",viewerImage);
   return (
-    <div
-      className="relative bg-gray-900 text-white"
-    >
+    <div className="relative bg-gray-900 text-white">
       <Background />
-      <DesktopIconGrid initialIcons={icons} />      
+      <DesktopIconGrid initialIcons={icons} />
       <Taskbar />
-      <FileExplorer title="Galerie" images={imageList} isVisible={GaleryOpen}/>
+      <FileExplorer
+        title="galeries"
+        images={imageList}
+        isVisible={isOpen('galeries')}
+        onOpenViewer={(image) => {
+          setViewerImage(image);
+          openWindow(`viewer-${image.id}`);
+        } }
+    />
+    {viewerImage && (
+      <ImageViewer
+          title="Visionneuse"
+          image={viewerImage} isVisible={false}      />
+    )}
     </div>
   );
 }
+
 

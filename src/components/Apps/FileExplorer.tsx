@@ -1,40 +1,78 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { WindowProps } from '@/utils/Window';
+import { IIcon } from '@/utils/IconDictionary';
 import { motion } from 'framer-motion';
+import FileIconGrid from '../Desktop/FileIconGrid';
+import { IconProvider, useIconContext } from '../Contexts/IconContext';
+import { X } from 'lucide-react';
+import { useWindowContext } from '../Contexts/windowContext';
 
-interface WindowProps {
+interface fileExplorerProps extends WindowProps {
   title: string;
   images: { id: string; src: string; name: string }[];
-  isVisible: boolean;
+  image?: { id: string; src: string; name: string }; // ← ici
 }
 
-export default function FileExplorer({ title, images, isVisible }: WindowProps) {
-  if(!isVisible)
-    return;
+export default function FileExplorer({ title, images, isVisible, onOpenViewer }: fileExplorerProps) {
+
+  const columns = 6;
+  const { openWindow, closeWindow, setViewerImage, setImages} = useWindowContext();
+  const icons = images.reduce<{ key: string; value: IIcon }[]>((acc, item, index) => {
+    const row = Math.floor(index / columns);
+    const col = index % columns;
+    acc.push({
+      key: item.id,
+      value: {
+        id: item.id,
+        title: item.name,
+        src: item.src,
+        row,
+        col,
+        onDoubleClick: () => {
+          setViewerImage({
+            id: item.id,
+            src: item.src,
+            name: item.name,
+          });
+          setImages(images);
+          openWindow(`visionneuse`);
+        },
+      },
+    });
+
+    return acc;
+  }, []);
+  const windowId = `galeries`;
+  const windowRef = useRef<HTMLDivElement>(null);
+  const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
+  const updateRect = () => {
+    if (windowRef.current) {
+      setContainerRect(windowRef.current.getBoundingClientRect());
+    }
+  };
+  if (!isVisible) return null;
+
   return (
     <motion.div
       drag
       dragConstraints={{ left: 0, top: 0, right: 800, bottom: 600 }}
+      onDrag={updateRect}
+      onDragEnd={updateRect}
       className="absolute top-20 left-20 w-[500px] z-50 h-[400px] bg-gray-800 rounded-md shadow-lg p-3 flex flex-col"
-      style={{ touchAction: 'none' }}
     >
-      {/* Header */}
-      <div className="font-bold text-white mb-2">{title}</div>
-
-      {/* Gallery area */}
-      <div className="bg-gray-700 flex-1 rounded-md p-2 text-sm overflow-auto">
-        <div className="grid grid-cols-4 gap-3">
-          {images.map((img) => (
-            <div key={img.id} className="flex flex-col items-center text-white text-xs">
-              <img
-                src={img.src}
-                alt={img.name}
-                className="w-16 h-16 object-cover rounded-md border border-gray-600"
-              />
-              <span className="truncate w-16 text-center mt-1">{img.name}</span>
-            </div>
-          ))}
-        </div>
+      <div className="flex justify-between items-center mb-2">
+        <div className="font-bold text-white">{title}</div>
+        <button
+          onClick={() => closeWindow(windowId)}
+          className="text-gray-400 hover:text-white transition"
+        >
+          <X size={18} />
+        </button>
       </div>
+      <IconProvider initialIcons={icons} >
+        <FileIconGrid containerRect={containerRect} />
+      </IconProvider>
+
     </motion.div>
   );
 }
