@@ -1,40 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 💻 webOS - Explorateur de Fichiers & Bureau Web
 
-## Getting Started
+Un bureau interactif en React/Next.js avec gestion de fenêtres, icônes et explorateur de fichiers intégré.  
+L’objectif est de recréer l’expérience d’un système d’exploitation directement dans le navigateur, avec des fenêtres modulables, un explorateur multi-dossiers et une visionneuse d’images.
 
-First, run the development server:
+(Forte inspiration de ce projet, il a mit quatre ans à développer ceci, cela mérite qu'on parle de lui.)
+https://github.com/DustinBrett/daedalOS
+
+---
+
+## ✨ Fonctionnalités actuelles
+
+- **Bureau interactif**
+  - Icônes déplaçables
+  - Sauvegarde de la position (dans l’état React)
+- **Explorateur de fichiers**
+  - Navigation dans un arbre de dossiers
+  - Double-clic sur un fichier image → ouverture dans la visionneuse
+  - Navigation arrière (icône `...` ou flèche)
+- **Visionneuse d’images**
+  - Galerie des fichiers images du dossier courant
+- **Gestion des fenêtres**
+  - Ouverture / fermeture dynamique
+  - Positionnement libre
+
+---
+
+## 🛠️ Technologies utilisées
+
+- **React** + Hooks
+- **TypeScript**
+- **Framer Motion** (animations)
+- **Lucide React** (icônes SVG)
+- **Tailwind CSS** (styles)
+- **Context API** (gestion d’état partagé)
+
+---
+
+## 📦 Installation
 
 ```bash
+# Cloner le projet
+git clone https://github.com/ton-profil/ton-repo.git
+
+# Aller dans le dossier
+cd ton-repo
+
+# Installer les dépendances
+npm install
+
+# Lancer le projet
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# 🗺️ Roadmap
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 📌 Phase 1 – Bureau & Explorateur (en cours)
+ - Gestion des icônes sur le bureau ✔️
+ - Navigation dossier / retour arrière ✔️
+ - Vsionneuse d'images ✔️
+ - Sauvegarde réelle des positions (localStorage ou backend)
+ - Amélioration du drag & drop
+## 📌 Phase 2 – Expérience utilisateur
+ - Gestion du clic droit (menu contextuel)
+ - Renommer un fichier/dossier
+ - Création de nouveaux dossiers
+ - Déplacement de fichiers entre dossiers
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 📌 Phase 3 – Fonctionnalités avancées
+ - Système d'authentification
+ - Stockage persistant des fichiers (backend ou API)
+ - Thème (clair/sombre, personnalisable)
+ - Multi-fenêtre avec superposition / redimensionnement
