@@ -1,3 +1,7 @@
+[FR](/README.md) | [ EN](/README_EN.md)
+
+---
+
 # 💻 webOS - Explorateur de Fichiers & Bureau Web
 
 Un bureau interactif en React/Next.js avec gestion de fenêtres, icônes et explorateur de fichiers intégré.  
