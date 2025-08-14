@@ -65,6 +65,10 @@ const DesktopIconGrid = ({ initialIcons }: GridIconsProps) => {
     const iconSize = 64; // Taille des icônes
     const [windowDimensions, setWindowDimensions] = useState<{ width: number; height: number } | null>(null);
 
+    useEffect(() => {
+        const dict = new IconDictionary(initialIcons);
+        setIconDict(dict);
+    }, [initialIcons]);
     useLayoutEffect(() => {
     if (containerRef.current) {
         const bounds = containerRef.current.getBoundingClientRect();
@@ -75,9 +79,6 @@ const DesktopIconGrid = ({ initialIcons }: GridIconsProps) => {
     }
 }, [windowDimensions]); // Dès que windowDimensions est prêt, on lit le container
     useEffect(() => {
-        const dict = new IconDictionary(initialIcons);
-        setIconDict(dict);
-
         // Set initial window dimensions on client-side
         if (typeof window !== 'undefined') {
             setWindowDimensions({

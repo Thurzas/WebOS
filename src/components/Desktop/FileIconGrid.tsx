@@ -87,11 +87,9 @@ const FileIconGrid = ({ containerRect }: FileIconGridProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  console.info(iconDict);
   if (!iconDict) {
     return <div className="p-4">Chargement…</div>;
   }
-
   return (
     <div className="relative w-full h-full bg-gradient-to-b from-blue-900 to-gray-900 overflow-hidden">
       <div ref={containerRef} className="relative w-full h-full">

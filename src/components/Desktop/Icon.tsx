@@ -10,11 +10,12 @@ interface IconProps extends IIcon {
     containerRect: DOMRect | null; // Pass the bounding rect of the drag container
     onDoubleClick: () => void;
     src?: string;
+    draggable?: boolean;
 }
 
 // Dans DesktopIcon
 
-export default function DesktopIcon({ id, title, row, col, component: IconComponent, color, onDragEnd, gridSize, iconSize, onDrag, containerRect, onDoubleClick,src  }: IconProps) {
+export default function DesktopIcon({ id, title, row, col, component: IconComponent, color, onDragEnd, gridSize, iconSize, onDrag, containerRect, onDoubleClick,src, draggable=true  }: IconProps) {
     const offsetX = (gridSize - iconSize) / 2;
     const offsetY = (gridSize - iconSize) / 2;
 
@@ -50,7 +51,7 @@ export default function DesktopIcon({ id, title, row, col, component: IconCompon
 
     return (
         <motion.div
-            drag
+            drag={draggable}
             dragMomentum={false}
             onDrag={handleDrag}
             onDragEnd={handleDragEnd}

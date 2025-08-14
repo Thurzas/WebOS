@@ -18,6 +18,7 @@ export interface IIcon {
     component?: React.ComponentType<any>;
     color?: string;
     src?: string;
+    draggable?:boolean;
 }
 
 
