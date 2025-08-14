@@ -1,3 +1,4 @@
+import { FileItem } from '@/utils/FileSystem';
 import React, { createContext, useContext, useState } from 'react';
 
 interface WindowContextType {
@@ -5,18 +6,18 @@ interface WindowContextType {
   isOpen: (id: string) => boolean;
   openWindow: (id: string) => void;
   closeWindow: (id: string) => void;
-  viewerImage: { id: string; src: string; name: string } | null;
-  setViewerImage: (img: { id: string; src: string; name: string } | null) => void;
-  Images:{ id: string; src: string; name: string }[] | [];
-  setImages: (imgs: { id: string; src: string; name: string }[]) => void;
+  viewerImage: FileItem | null;
+  setViewerImage: (img: FileItem | null) => void;
+  Images:FileItem[] | [];
+  setImages: (imgs: FileItem[]) => void;
 }
 
 const WindowContext = createContext<WindowContextType | undefined>(undefined);
 
 export const WindowProvider = ({ children }: { children: React.ReactNode }) => {
   const [windows, setWindows] = useState<Record<string, boolean>>({});
-  const [viewerImage, setViewerImage] = useState<{ id: string; src: string; name: string } | null>(null);
-  const [Images, setImagesSlider] = useState<{ id: string; src: string; name: string }[] | []>([]);
+  const [viewerImage, setViewerImage] = useState< FileItem | null>(null);
+  const [Images, setImagesSlider] = useState<FileItem[] | []>([]);
 
   const openWindow = (id: string) => {
     setWindows(prev => ({ ...prev, [id]: true }));
@@ -34,7 +35,7 @@ export const WindowProvider = ({ children }: { children: React.ReactNode }) => {
     return !!windows[id];
   };
 
-  const setImages = (images : { id: string; src: string; name: string }[]) => {
+  const setImages = (images : FileItem[]) => {
     setImagesSlider(prev => images);
   };
 

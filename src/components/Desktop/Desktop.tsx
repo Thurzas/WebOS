@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { IIcon } from '@/utils/IconDictionary';
 import { useWindowContext, WindowProvider } from '../Contexts/windowContext';
 import ImageViewer from '../Apps/ImageViewer';
+import { FileItem } from '@/utils/FileSystem';
+import DesktopWindow from './Window';
 
 
 
@@ -19,15 +21,30 @@ export default function Desktop() {
   );
 }
 
- function DesktopContent() {
-  const imageList = [
-    { id: '1', src: '/images/photo1.jpg', name: 'mlp.jpg' },
-    { id: '2', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
-    { id: '3', src: '/images/photo3.jpg', name: 'DnD.jpg' },
-    { id: '4', src: '/images/photo4.jpg', name: 'Misty.jpg' },
+ function DesktopContent() {  
+  const simpleFolder: FileItem[] =[
+  ];
+  const folderWIthItems: FileItem[] =[
+    { id: '1', type:'file', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
+    { id: '2', type:'file', src: '/images/photo3.jpg', name: 'DnD.jpg' },
+    { id: '3', type:'file', src: '/images/photo4.jpg', name: 'Misty.jpg' },
+  ];
+  const imageList :FileItem[] =[
+    { id: '5', type:'folder', name: 'secret', children:simpleFolder},
+    { id: '1', type:'file', src: '/images/photo1.jpg', name: 'mlp.jpg' },
+    { id: '2', type:'file', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
+    { id: '3', type:'file', src: '/images/photo3.jpg', name: 'DnD.jpg' },
+    { id: '4', type:'file', src: '/images/photo4.jpg', name: 'Misty.jpg' },
     // Ajoute autant que tu veux
   ];
-  
+  const documentList :FileItem[] =[
+    { id: '5', type:'folder', name: 'miraculous', children:simpleFolder},
+    { id: '1', type:'folder', name: 'mlp', children:folderWIthItems },
+    { id: '2', type:'file', src: '/images/photo2.jpg', name: 'etiquetteChampagne.jpg' },
+    { id: '3', type:'file', src: '/images/photo3.jpg', name: 'DnD.jpg' },
+    { id: '4', type:'file', src: '/images/photo4.jpg', name: 'Misty.jpg' },
+    // Ajoute autant que tu veux
+  ];  
   const icons: { key: string; value: IIcon }[] = [
   {
     key: 'home',
@@ -62,7 +79,10 @@ export default function Desktop() {
       col: 0,
       component: Folder,
       color: 'text-yellow-400',
-      onDoubleClick: () => { console.log("Files ?"); }
+      onDoubleClick: () => {
+        if(!isOpen('documents'))
+          openWindow('documents');      
+      }
     }
   },
   {
@@ -82,27 +102,32 @@ export default function Desktop() {
   },
   // autres icônes...
   ];
-  const { isOpen, toggleWindow, openWindow, viewerImage, setViewerImage} = useWindowContext();
-  if(viewerImage)
-    console.info("img:",viewerImage);
+  const { isOpen, openWindow, viewerImage, } = useWindowContext();
   return (
     <div className="relative bg-gray-900 text-white">
       <Background />
       <DesktopIconGrid initialIcons={icons} />
       <Taskbar />
-      <FileExplorer
-        title="galeries"
-        images={imageList}
-        isVisible={isOpen('galeries')}
-        onOpenViewer={(image) => {
-          setViewerImage(image);
-          openWindow(`viewer-${image.id}`);
-        } }
-    />
+      <DesktopWindow windowId={'galeries'} title={'galeries'} isVisible={isOpen('galeries')}>
+        <FileExplorer
+          title="galeries"
+          root={imageList}
+          isVisible={true}
+      />
+      </DesktopWindow>
+      <DesktopWindow windowId={'documents'} title={'Documents'} isVisible={isOpen('documents')}>
+        <FileExplorer
+          title="documents"
+          root={documentList}
+          isVisible={true}
+      />
+      </DesktopWindow>      
     {viewerImage && (
-      <ImageViewer
-          title="Visionneuse"
-          image={viewerImage} isVisible={false}      />
+      <DesktopWindow windowId={'Visionneuse'} title={'Visionneuse'} isVisible={isOpen('Visionneuse')}>
+        <ImageViewer
+            title="Visionneuse"
+            image={viewerImage} isVisible={false}      />
+      </DesktopWindow>
     )}
     </div>
   );

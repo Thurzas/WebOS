@@ -4,15 +4,17 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useWindowContext } from '../Contexts/windowContext';
 import DesktopWindow from '../Desktop/Window';
 import { WindowProps } from '@/utils/Window';
+import { FileItem } from '@/utils/FileSystem';
 
 interface ImgViewerProps extends Omit<WindowProps, 'onOpenViewer'> {
   title: string;
-  image: { id: string; src: string; name: string };
+  image: FileItem;
 }
 
 export default function ImageViewer({ title }: ImgViewerProps) {
   const { isOpen, Images, viewerImage } = useWindowContext();
-  const windowId = `visionneuse`;
+  const windowId = `Visionneuse`;
+  console.info("wtf man  ?");
   if(!viewerImage)
   {
     return(
@@ -43,26 +45,24 @@ export default function ImageViewer({ title }: ImgViewerProps) {
     }
   }, [viewerImage, Images]);
 
+  console.info(viewerImage);
   return (
-    <DesktopWindow windowId={windowId} title={title} isVisible={true}>
-      <div className="flex-1 flex flex-col items-center justify-center bg-gray-900 rounded-md p-4 relative">
-        <img
-          src={currentImage.src}
-          alt={currentImage.name}
-          draggable={false}
-          className="max-h-[80vh] object-contain rounded-md border border-gray-600"
-        />
-        <span className="truncate w-full text-center mt-2 text-sm text-gray-300">
-          {currentImage.name}
-        </span>
+    <div className='max-h-[90vh]'>
+      <img
+        src={currentImage.src}
+        alt={currentImage.name}
+        className="max-h-[80vh] object-contain rounded-md border border-gray-600"
+      />
+      <span className="truncate w-full text-center mt-2 text-sm text-gray-300">
+        {currentImage.name}
+      </span>
 
-        <button onClick={prev} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white p-2 hover:bg-gray-700 rounded-full">
-          <ChevronLeft />
-        </button>
-        <button onClick={next} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white p-2 hover:bg-gray-700 rounded-full">
-          <ChevronRight />
-        </button>
-      </div>
-    </DesktopWindow>
+      <button onClick={prev} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white p-2 hover:bg-gray-700 rounded-full">
+        <ChevronLeft />
+      </button>
+      <button onClick={next} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white p-2 hover:bg-gray-700 rounded-full">
+        <ChevronRight />
+      </button>
+    </div>
   );
 }
