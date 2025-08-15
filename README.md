@@ -63,7 +63,9 @@ npm run dev
 ## 📌 Phase 1 – Bureau & Explorateur (en cours)
  - Gestion des icônes sur le bureau ✔️
  - Navigation dossier / retour arrière ✔️
- - Vsionneuse d'images ✔️
+ - Visionneuse d'images ✔️
+ - animation arrière plan (wallpapers)
+ - Gestionnaire des paramètres (Settings)
  - Sauvegarde réelle des positions (localStorage ou backend)
  - Amélioration du drag & drop
 ## 📌 Phase 2 – Expérience utilisateur
