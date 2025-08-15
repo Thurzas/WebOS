@@ -64,6 +64,7 @@ npm run dev
  - Gestion des icônes sur le bureau ✔️
  - Navigation dossier / retour arrière ✔️
  - Visionneuse d'images ✔️
+ - Contexte pour les applications
  - animation arrière plan (wallpapers)
  - Gestionnaire des paramètres (Settings)
  - Sauvegarde réelle des positions (localStorage ou backend)
