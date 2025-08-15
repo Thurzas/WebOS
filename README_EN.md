@@ -62,6 +62,9 @@ npm run dev
 - Desktop icon management ✔️
 - Folder navigation / back navigation ✔️
 - Image viewer ✔️
+- App context
+- Background wallpapers
+- Settings management
 - Actual position saving (localStorage or backend)
 - Improved drag & drop
 
